@@ -1,7 +1,10 @@
+//import 'dart:io';
 import 'package:flutter/material.dart';
 import 'src/screens/welcome.dart'; // Importa la pantalla de bienvenida
+//import '../src/services/api_service.dart';
 
 void main() {
+
   runApp(const MyApp());
 }
 

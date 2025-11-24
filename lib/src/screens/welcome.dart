@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'login.dart'; // Importamos la pantalla de login
-import 'register.dart'; // <-- CAMBIO: Importamos la pantalla de registro
+import 'register_screen.dart'; // Importamos la pantalla de registro
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
+  // Define el color principal para mantener consistencia con el diseño verde
+  static const Color primaryColor = Color(0xFF4CAF50);
+  static const Color backgroundColor = Color(0xFFF1F8E9);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -18,16 +22,16 @@ class WelcomeScreen extends StatelessWidget {
               const Spacer(flex: 2),
               CircleAvatar(
                 radius: 60,
-                backgroundColor: Colors.purple[100],
+                backgroundColor: Colors.green[100],
                 child: Icon(
                   Icons.person,
                   size: 80,
-                  color: Colors.purple[400],
+                  color: primaryColor,
                 ),
               ),
               const SizedBox(height: 20),
               const Text(
-                'Bienestar Digital',
+                'Salud Digital',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -51,11 +55,12 @@ class WelcomeScreen extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey[700],
+                  backgroundColor: primaryColor,
                   minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),
+                  elevation: 2, // Reducido para un look más minimalista
                 ),
                 child: const Text(
                   'Iniciar Sesión',
@@ -66,22 +71,21 @@ class WelcomeScreen extends StatelessWidget {
               // Botón de Registrarse
               OutlinedButton(
                 onPressed: () {
-                  // <-- CAMBIO: Navegación a la pantalla de Registro
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const RegisterScreen()),
                   );
                 },
                 style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Colors.grey[700]!),
+                  side: const BorderSide(color: primaryColor),
                   minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Registrarse',
-                  style: TextStyle(fontSize: 18, color: Colors.grey[700]!),
+                  style: TextStyle(fontSize: 18, color: primaryColor),
                 ),
               ),
               const Spacer(flex: 1),

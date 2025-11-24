@@ -10,20 +10,23 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class RegisterScreenState extends State<RegisterScreen> {
-  // Define el color principal azul claro. Puedes cambiarlo aquí.
-  static const Color primaryColor = Color(0xFF4A90E2);
-  static const Color backgroundColor = Color(0xFFF5F9FF); // Un azul muy claro para el fondo
+  // Define el color principal verde minimalista
+  static const Color primaryColor = Color(0xFF4CAF50);
+  static const Color accentColor = Color(0xFF8BC34A);
+  static const Color backgroundColor = Color(0xFFF1F8E9); // Un verde muy claro para el fondo
 
   // Controladores para los campos de texto
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
 
-  // Variables para controlar la visibilidad de las contraseñas
+  // Variable para controlar la visibilidad de la contraseña
   bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
+  
+  // Variable para almacenar el género seleccionado
+  String _selectedGender = 'Masculino';
 
   @override
   void dispose() {
@@ -31,8 +34,8 @@ class RegisterScreenState extends State<RegisterScreen> {
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
+    _ageController.dispose();
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -60,11 +63,11 @@ class RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 40.0),
 
-              // Campo de Nombre
+              // Campo de Nombre Completo
               _buildTextField(
                 controller: _nameController,
-                labelText: 'Nombre',
-                hintText: 'Tu nombre',
+                labelText: 'Nombre Completo',
+                hintText: 'Tu nombre completo',
                 icon: Icons.person,
               ),
               const SizedBox(height: 16.0),
@@ -82,11 +85,25 @@ class RegisterScreenState extends State<RegisterScreen> {
               // Campo de Celular
               _buildTextField(
                 controller: _phoneController,
-                labelText: 'Celular',
+                labelText: 'Número de Celular',
                 hintText: 'Tu número de teléfono',
                 icon: Icons.phone,
                 keyboardType: TextInputType.phone,
               ),
+              const SizedBox(height: 16.0),
+
+              // Campo de Edad
+              _buildTextField(
+                controller: _ageController,
+                labelText: 'Edad',
+                hintText: 'Tu edad',
+                icon: Icons.cake,
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 16.0),
+
+              // Campo de Género
+              _buildGenderField(),
               const SizedBox(height: 16.0),
 
               // Campo de Contraseña
@@ -101,20 +118,6 @@ class RegisterScreenState extends State<RegisterScreen> {
                   });
                 },
               ),
-              const SizedBox(height: 16.0),
-
-              // Campo de Confirmar Contraseña
-              _buildPasswordField(
-                controller: _confirmPasswordController,
-                labelText: 'Confirmar Contraseña',
-                hintText: 'Repite tu contraseña',
-                obscureText: _obscureConfirmPassword,
-                onTapIcon: () {
-                  setState(() {
-                    _obscureConfirmPassword = !_obscureConfirmPassword;
-                  });
-                },
-              ),
               const SizedBox(height: 30.0),
 
               // Botón de Confirmar
@@ -123,9 +126,9 @@ class RegisterScreenState extends State<RegisterScreen> {
                   // Aquí iría la lógica de registro
                   debugPrint('Registrando usuario...');
                   // Ejemplo de validación simple
-                  if (_passwordController.text != _confirmPasswordController.text) {
+                  if (_passwordController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Las contraseñas no coinciden')),
+                      const SnackBar(content: Text('Por favor ingresa una contraseña')),
                     );
                   }
                 },
@@ -135,7 +138,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  elevation: 5,
+                  elevation: 2,
                 ),
                 child: const Text(
                   'Confirmar',
@@ -238,7 +241,48 @@ class RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  // Widget para construir los campos de contraseña
+  // Widget para construir el campo de género
+  Widget _buildGenderField() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30.0),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.people, color: primaryColor),
+          const SizedBox(width: 15),
+          Expanded(
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: _selectedGender,
+                icon: const Icon(Icons.arrow_drop_down, color: primaryColor),
+                iconSize: 24,
+                elevation: 16,
+                style: const TextStyle(color: Colors.black87),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedGender = newValue!;
+                  });
+                },
+                items: <String>['Masculino', 'Femenino', 'Otro']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget para construir el campo de contraseña
   Widget _buildPasswordField({
     required TextEditingController controller,
     required String labelText,

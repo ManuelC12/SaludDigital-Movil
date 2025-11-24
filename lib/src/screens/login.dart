@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'register.dart'; // Importamos la pantalla de registro para poder navegar a ella
+import 'package:salud_digital/src/screens/home.dart';
+//import 'package:salud_digital/src/screens/welcome.dart';
+import 'register_screen.dart';
+import 'password_recovery.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,15 +13,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
-  // Define el color principal azul claro.
-  static const Color primaryColor = Color(0xFF4A90E2);
-  static const Color backgroundColor = Color(0xFFF5F9FF);
-
-  // Controladores para los campos de texto
+  // Paleta de colores minimalista verde
+  static const Color primaryColor = Color(0xFF4CAF50);
+  static const Color accentColor = Color(0xFF8BC34A);
+  static const Color backgroundColor = Color(0xFFF1F8E9); // Un verde muy claro para el fondo
+  
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  // Variable para controlar la visibilidad de la contraseña
   bool _obscurePassword = true;
 
   @override
@@ -39,7 +40,6 @@ class LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              // Título de la pantalla
               const Text(
                 'Iniciar Sesión',
                 textAlign: TextAlign.center,
@@ -50,8 +50,6 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 40.0),
-
-              // Campo de Correo o Celular
               _buildTextField(
                 controller: _emailController,
                 labelText: 'Correo o Celular',
@@ -59,8 +57,6 @@ class LoginScreenState extends State<LoginScreen> {
                 icon: Icons.person,
               ),
               const SizedBox(height: 16.0),
-
-              // Campo de Contraseña
               _buildPasswordField(
                 controller: _passwordController,
                 labelText: 'Contraseña',
@@ -73,12 +69,14 @@ class LoginScreenState extends State<LoginScreen> {
                 },
               ),
               const SizedBox(height: 8.0),
-              // Opcional: Añadir un enlace de "¿Olvidaste tu contraseña?"
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    debugPrint('Olvidé mi contraseña');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PasswordRecoveryScreen()),
+                    );
                   },
                   child: const Text(
                     '¿Olvidaste tu contraseña?',
@@ -91,14 +89,18 @@ class LoginScreenState extends State<LoginScreen> {
               // Botón de Iniciar Sesión
               ElevatedButton(
                 onPressed: () {
-                  // Aquí iría la lógica de inicio de sesión
-                  debugPrint('Iniciando sesión...');
-                  // Ejemplo de validación simple
                   if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Por favor, completa todos los campos')),
                     );
+                    return;
                   }
+                  debugPrint('Inicio de sesión exitoso (simulado)');
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                    (Route<dynamic> route) => false,
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
@@ -106,7 +108,7 @@ class LoginScreenState extends State<LoginScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  elevation: 5,
+                  elevation: 2, // Reducido para un look más minimalista
                 ),
                 child: const Text(
                   'Iniciar Sesión',
@@ -114,8 +116,6 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 24.0),
-
-              // Separador para inicio de sesión social
               Row(
                 children: const <Widget>[
                   Expanded(child: Divider()),
@@ -127,26 +127,14 @@ class LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               const SizedBox(height: 24.0),
-
-              // Botones de inicio de sesión social
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildSocialButton(
-                    'Facebook',
-                    const Color(0xFF1877F2),
-                    () => debugPrint('Iniciar con Facebook'),
-                  ),
-                  _buildSocialButton(
-                    'Gmail',
-                    const Color(0xFFEA4335),
-                    () => debugPrint('Iniciar con Gmail'),
-                  ),
+                  _buildSocialButton('Facebook', const Color(0xFF1877F2), () => debugPrint('Iniciar con Facebook')),
+                  _buildSocialButton('Gmail', const Color(0xFFEA4335), () => debugPrint('Iniciar con Gmail')),
                 ],
               ),
               const SizedBox(height: 30.0),
-
-              // Texto para ir a la pantalla de registro
               Center(
                 child: Text.rich(
                   TextSpan(
@@ -155,17 +143,10 @@ class LoginScreenState extends State<LoginScreen> {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'Regístrate',
-                        style: const TextStyle(
-                          color: primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        // NAVEGACIÓN: Al presionar, lleva a la pantalla de registro.
+                        style: const TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const RegisterScreen()),
-                            );
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterScreen()));
                           },
                       ),
                     ],
@@ -179,7 +160,6 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Widget para construir los campos de texto generales
   Widget _buildTextField({
     required TextEditingController controller,
     required String labelText,
@@ -209,7 +189,6 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Widget para construir los campos de contraseña
   Widget _buildPasswordField({
     required TextEditingController controller,
     required String labelText,
@@ -246,7 +225,6 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Widget para los botones de inicio de sesión social
   Widget _buildSocialButton(String text, Color color, VoidCallback onPressed) {
     return OutlinedButton(
       onPressed: onPressed,
