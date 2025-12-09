@@ -1,29 +1,25 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart'; // Para debugPrint
 
 class RegisterService {
-  final String baseUrl = "https://10.0.2.2:7136/api/Users";
+  // 1. Definición correcta (con guion bajo)
+  // IMPORTANTE: Agregamos "/register" al final porque así está en tu C#
+  final String _baseUrl = "http://127.0.0.1:5000/api/Users/register"; 
 
-  Future<String> register(Map<String, dynamic> data) async {
-    final url = Uri.parse("$baseUrl/register");
-
+  Future<http.Response?> registerUser(Map<String, dynamic> userData) async {
     try {
+      // 2. Uso correcto (con guion bajo)
       final response = await http.post(
-        url,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode(data),
+        Uri.parse(_baseUrl), // <--- AQUÍ ESTABA EL ERROR (antes decía baseUrl)
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(userData),
       );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return response.body;
-      } else {
-        throw Exception(
-            "Error al registrar usuario: ${response.statusCode} - ${response.body}");
-      }
+      
+      return response;
     } catch (e) {
-      throw Exception("No se pudo conectar con la API: $e");
+      debugPrint("Error en servicio de registro: $e");
+      return null;
     }
   }
 }

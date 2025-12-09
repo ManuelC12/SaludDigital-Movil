@@ -1,97 +1,173 @@
+import 'dart:ui'; // Necesario para el efecto vidrio
 import 'package:flutter/material.dart';
-import 'login.dart'; // Importamos la pantalla de login
-import 'register_screen.dart'; // Importamos la pantalla de registro
+import 'login.dart';
+import 'register_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
-  // Define el color principal para mantener consistencia con el diseño verde
-  static const Color primaryColor = Color(0xFF4CAF50);
-  static const Color backgroundColor = Color(0xFFF1F8E9);
-
   @override
   Widget build(BuildContext context) {
+    // COLORES DEL DISEÑO (Coherentes con tu app)
+    const Color greenDark = Color(0xFF1A3C2F);
+    const Color greenPrimary = Color(0xFF2D936C);
+    const Color greenLight = Color(0xFFA8E6CF);
+
     return Scaffold(
-      backgroundColor: backgroundColor,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Spacer(flex: 2),
-              CircleAvatar(
-                radius: 60,
-                backgroundColor: Colors.green[100],
-                child: Icon(
-                  Icons.person,
-                  size: 80,
-                  color: primaryColor,
-                ),
+      body: Stack(
+        children: [
+          // 1. FONDO DEGRADADO
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [greenLight, greenPrimary],
               ),
-              const SizedBox(height: 20),
-              const Text(
-                'Salud Digital',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                '¡Hola de Nuevo!',
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.grey,
-                ),
-              ),
-              const Spacer(flex: 3),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  elevation: 2, // Reducido para un look más minimalista
-                ),
-                child: const Text(
-                  'Iniciar Sesión',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(height: 15),
-              // Botón de Registrarse
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const RegisterScreen()),
-                  );
-                },
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: primaryColor),
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-                child: const Text(
-                  'Registrarse',
-                  style: TextStyle(fontSize: 18, color: primaryColor),
-                ),
-              ),
-              const Spacer(flex: 1),
-            ],
+            ),
           ),
-        ),
+
+          // 2. CONTENIDO (TARJETA DE VIDRIO CENTRADA)
+          Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(30.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30), // Bordes redondeados del vidrio
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // Efecto borroso
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+                    decoration: BoxDecoration(
+                      // ignore: deprecated_member_use
+                      color: Colors.white.withOpacity(0.25), // Transparencia
+                      borderRadius: BorderRadius.circular(30),
+                      // ignore: deprecated_member_use
+                      border: Border.all(color: Colors.white.withOpacity(0.2)),
+                      boxShadow: [
+                        BoxShadow(
+                          // ignore: deprecated_member_use
+                          color: const Color(0xFF1F2687).withOpacity(0.2),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min, // La tarjeta se ajusta al contenido
+                      children: [
+                        // ICONO / LOGO
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            // ignore: deprecated_member_use
+                            color: Colors.white.withOpacity(0.8),
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                // ignore: deprecated_member_use
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 15,
+                                offset: const Offset(0, 5),
+                              )
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.health_and_safety, // Icono más representativo
+                            size: 60,
+                            color: greenPrimary,
+                          ),
+                        ),
+                        
+                        const SizedBox(height: 30),
+                        
+                        // TEXTOS
+                        const Text(
+                          'Salud Digital',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: greenDark, // Color oscuro para contraste
+                            letterSpacing: 1,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Tu bienestar, simplificado.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            // ignore: deprecated_member_use
+                            color: greenDark.withOpacity(0.8),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+
+                        const SizedBox(height: 50),
+
+                        // BOTÓN INICIAR SESIÓN
+                        SizedBox(
+                          width: double.infinity,
+                          height: 55,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: greenDark, // Botón oscuro sólido
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              elevation: 5,
+                              // ignore: deprecated_member_use
+                              shadowColor: greenDark.withOpacity(0.4),
+                            ),
+                            child: const Text(
+                              'Iniciar Sesión',
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // BOTÓN REGISTRARSE (Estilo Glass)
+                        SizedBox(
+                          width: double.infinity,
+                          height: 55,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                              );
+                            },
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(color: greenDark, width: 2), // Borde visible
+                              // ignore: deprecated_member_use
+                              backgroundColor: Colors.white.withOpacity(0.3), // Fondo semitransparente
+                              foregroundColor: greenDark,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            child: const Text(
+                              'Registrarse',
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
