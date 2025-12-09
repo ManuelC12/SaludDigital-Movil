@@ -1,11 +1,22 @@
 //import 'dart:io';
 import 'package:flutter/material.dart';
-import 'src/screens/welcome.dart'; // Importa la pantalla de bienvenida
-//import '../src/services/api_service.dart';
+import 'package:provider/provider.dart';
+import 'src/screens/welcome.dart';
+import 'src/viewmodels/login_viewmodel.dart';
+import 'src/viewmodels/register_viewmodel.dart';
+import 'src/viewmodels/therapist_viewmodel.dart';
 
 void main() {
-
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginViewModel()),
+        ChangeNotifierProvider(create: (_) => RegisterViewModel()),
+        ChangeNotifierProvider(create: (_) => TherapistViewModel()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +31,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      // Define la pantalla de bienvenida como la pantalla inicial
       home: const WelcomeScreen(),
     );
   }
