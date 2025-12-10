@@ -6,6 +6,7 @@ import '../viewmodels/login_viewmodel.dart';
 import 'home.dart';
 import 'register_screen.dart';
 import 'password_recovery.dart';
+import 'doctor_dashboard.dart'; // <--- IMPORTANTE: Asegúrate de tener este archivo
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -48,12 +49,25 @@ class LoginScreenState extends State<LoginScreen> {
       );
 
       if (success) {
+        final user = vm.user; // Obtenemos el usuario cargado en el ViewModel
+
         if (mounted) {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
-            (route) => false,
-          );
+          // --- LÓGICA DE REDIRECCIÓN POR ROL ---
+          if (user?.role == 'Terapeuta' || user?.role == 'Doctor') {
+            // Si es especialista, va a su Dashboard
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const DoctorDashboard()),
+              (route) => false,
+            );
+          } else {
+            // Si es paciente, va al Home normal
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+              (route) => false,
+            );
+          }
         }
       } else {
         if (mounted) {

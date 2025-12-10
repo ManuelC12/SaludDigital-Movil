@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'home.dart';
 import 'agenda.dart';
 import 'profile.dart';
-import 'subscription.dart';
+import 'patient_appointments.dart';
 // --- MODELOS DE DATOS ---
 class StepItem {
   final String titulo;
@@ -319,11 +319,11 @@ class _RutinasScreenState extends State<RutinasScreen> {
                       _buildNavItem(Icons.calendar_month, "Mi Diario", false, onTap: () {
                          Navigator.push(context, MaterialPageRoute(builder: (context) => const AgendaScreen()));
                       }),
-                                     _buildNavItem(Icons.diamond, "Premium", false, onTap: () {
-  Navigator.push(
-    context, 
-    MaterialPageRoute(builder: (context) => const SubscriptionScreen())
-  );
+          
+
+
+                       _buildNavItem(Icons.medical_services, "Citas", false, onTap: () {
+  Navigator.push(context, MaterialPageRoute(builder: (context) => const PatientAppointmentsScreen()));
 }),
                       _buildNavItem(Icons.person, "Perfil", false, onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));

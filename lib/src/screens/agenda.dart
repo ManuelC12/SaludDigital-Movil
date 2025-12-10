@@ -5,8 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
 import 'profile.dart';
 import 'rutinas.dart';
-import 'subscription.dart';
-
+import 'patient_appointments.dart';
 // --- MODELO ---
 class DiaryEntry {
   final String id;
@@ -404,13 +403,11 @@ class _AgendaScreenState extends State<AgendaScreen> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const RutinasScreen()));
                       }),
                       _buildNavItem(Icons.calendar_month, "", true, onTap: () {}),
-                      // Botón para ir a Premium
-_buildNavItem(Icons.diamond, "Premium", false, onTap: () {
-  Navigator.push(
-    context, 
-    MaterialPageRoute(builder: (context) => const SubscriptionScreen())
-  );
+                      // Reemplaza el botón de Premium por:
+_buildNavItem(Icons.medical_services, "Citas", false, onTap: () {
+  Navigator.push(context, MaterialPageRoute(builder: (context) => const PatientAppointmentsScreen()));
 }),
+
                       _buildNavItem(Icons.person, "Perfil", false, onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));
                       }),

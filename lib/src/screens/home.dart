@@ -5,7 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart'; // <--- IMPORTANTE
 import 'profile.dart'; 
 import 'agenda.dart'; 
 import 'rutinas.dart';
-import 'subscription.dart';
+//import 'subscription.dart';
+import 'patient_appointments.dart';
 
 // --- MODELO ---
 class Meditacion {
@@ -373,9 +374,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       _buildNavItem(Icons.calendar_month, "Mi Diario", false, onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=> const AgendaScreen()));
                       }),
-                      _buildNavItem(Icons.diamond, "Premium", false, onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const SubscriptionScreen()));
-                      }),
+               _buildNavItem(Icons.medical_services, "Citas", false, onTap: () {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const PatientAppointmentsScreen()));
+  }),
+                     
                       _buildNavItem(Icons.person, "Perfil", false, onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));
                       }),

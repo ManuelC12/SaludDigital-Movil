@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
 import 'home.dart'; 
-import 'subscription.dart';
+import 'patient_appointments.dart'; // <--- Agrega esto
 import 'login.dart';
 import 'agenda.dart'; // <--- IMPORTANTE: Agregamos esto para poder ir a la Agenda
 import 'package:salud_digital/src/screens/rutinas.dart';
@@ -247,12 +247,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _buildNavItem(Icons.calendar_month, "Mi Diario", false, onTap: () {
                          Navigator.push(context, MaterialPageRoute(builder: (context) => const AgendaScreen()));
                       }),
-                      // Botón para ir a Premium
-_buildNavItem(Icons.diamond, "Premium", false, onTap: () {
-  Navigator.push(
-    context, 
-    MaterialPageRoute(builder: (context) => const SubscriptionScreen())
-  );
+                             _buildNavItem(Icons.medical_services, "Citas", false, onTap: () {
+  Navigator.push(context, MaterialPageRoute(builder: (context) => const PatientAppointmentsScreen()));
 }),
                       // 3. PERFIL (Activo)
                       _buildNavItem(Icons.person, "Perfil", true, onTap: () {}),
