@@ -53,7 +53,7 @@ class LoginScreenState extends State<LoginScreen> {
 
         if (mounted) {
           // --- LÓGICA DE REDIRECCIÓN POR ROL ---
-          if (user?.role == 'Terapeuta' || user?.role == 'Doctor') {
+          if (user?.isDoctor == 'S') {
             // Si es especialista, va a su Dashboard
             Navigator.pushAndRemoveUntil(
               context,
@@ -135,7 +135,12 @@ class LoginScreenState extends State<LoginScreen> {
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color.fromRGBO(31, 38, 135, 1).withValues(alpha: 0.15),
+                              color: const Color.fromRGBO(
+                                31,
+                                38,
+                                135,
+                                1,
+                              ).withValues(alpha: 0.15),
                               blurRadius: 32,
                               offset: const Offset(0, 8),
                             ),

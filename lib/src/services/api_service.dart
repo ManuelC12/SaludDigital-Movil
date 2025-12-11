@@ -11,15 +11,12 @@ class ApiService {
   // --- 1. LOGIN ---
   Future<Map<String, dynamic>> login(String email, String password) async {
     final url = Uri.parse('$_baseUrl/Users/login');
-    
+
     try {
       final response = await http.post(
         url,
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "email": email,
-          "password": password
-        }),
+        body: jsonEncode({"email": email, "password": password}),
       );
 
       if (response.statusCode == 200) {
@@ -52,9 +49,9 @@ class ApiService {
   // --- 3. OBTENER TERAPEUTAS (Privado - Requiere Token) ---
   Future<List<dynamic>> getTherapists() async {
     final url = Uri.parse('$_baseUrl/Therapists');
-    
+
     // Obtenemos el token guardado para tener permiso
-    final headers = await _getAuthHeaders(); 
+    final headers = await _getAuthHeaders();
 
     try {
       final response = await http.get(url, headers: headers);
@@ -74,18 +71,20 @@ class ApiService {
   Future<Map<String, String>> _getAuthHeaders() async {
     final prefs = await SharedPreferences.getInstance();
     // Recuperamos el objeto usuario guardado para sacar el token si lo guardaste ahí
-    // OJO: Depende de cómo guardaste el token. 
+    // OJO: Depende de cómo guardaste el token.
     // Si guardaste todo el JSON del login en 'userData', hay que extraerlo.
-    
+
     // Opción A: Si guardaste solo el token en una variable 'token'
-    // String? token = prefs.getString('token'); 
+    // String? token = prefs.getString('token');
 
     // Opción B (La que usamos antes): El token venía en el login response.
     // Lo ideal es guardar el token suelto al hacer login:
     // await prefs.setString('jwt_token', token);
-    
+
     // Supongamos que ya guardaste el token como 'jwt_token' en el Login
-    String? token = prefs.getString('token_jwt'); // Asegúrate de guardar esto en el login
+    String? token = prefs.getString(
+      'token_jwt',
+    ); // Asegúrate de guardar esto en el login
 
     return {
       "Content-Type": "application/json",

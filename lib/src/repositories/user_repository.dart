@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -7,7 +9,8 @@ import '../services/api_service.dart';
 class UserRepository {
   final ApiService _apiService;
 
-  UserRepository([ApiService? apiService]) : _apiService = apiService ?? ApiService();
+  UserRepository([ApiService? apiService])
+    : _apiService = apiService ?? ApiService();
 
   Future<User> login(String email, String password) async {
     final jsonResponse = await _apiService.login(email, password);
@@ -18,21 +21,21 @@ class UserRepository {
 
       final user = User(
         // CORRECCIÓN 1: Asignamos String directamente
-        id: decoded['Id']?.toString() ?? decoded['nameid']?.toString() ?? '', 
-        
+        id: decoded['Id']?.toString() ?? decoded['nameid']?.toString() ?? '',
         name: decoded['Name'] ?? decoded['unique_name'] ?? 'Usuario',
         email: decoded['email'] ?? email,
         phone: decoded['PhoneNumber'] ?? decoded['phone'] ?? '',
         age: int.tryParse(decoded['Age']?.toString() ?? '0') ?? 0,
         gender: decoded['Gender'] ?? 'O',
-        role: decoded['Role'] ?? decoded['role'] ?? 'Paciente',
+        isDoctor: decoded['isdoctor'] ?? decoded['isDoctor'] ?? 'N',
       );
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('userData', jsonEncode(user.toJson()));
       await prefs.setBool('isLoggedIn', true);
       await prefs.setString('token_jwt', token);
-
+      
+      print(prefs.getString('userData'));
       return user;
     }
 
@@ -44,14 +47,14 @@ class UserRepository {
     if (success) {
       final user = User(
         // CORRECCIÓN 2: Usamos cadena vacía en lugar de 0
-        id: '', 
-        
+        id: '',
+
         name: userData['nombre'] ?? userData['name'] ?? 'Usuario',
         email: userData['email'] ?? 'no@email',
         phone: userData['celular'] ?? userData['phone'] ?? '',
         age: userData['edad'] ?? 0,
         gender: (userData['genre'] ?? 'O').toString(),
-        role: 'Paciente', 
+        isDoctor: 'N',
       );
 
       final prefs = await SharedPreferences.getInstance();

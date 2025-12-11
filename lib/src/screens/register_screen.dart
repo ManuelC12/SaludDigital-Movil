@@ -60,7 +60,7 @@ class RegisterScreenState extends State<RegisterScreen> {
       "celular": _phoneController.text,
       "password": _passwordController.text,
       "edad": int.tryParse(_ageController.text) ?? 0,
-      "genre": genderChar,
+      "genre": genderChar
     };
 
     try {

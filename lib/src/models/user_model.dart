@@ -5,7 +5,7 @@ class User {
   final String phone;
   final int age;
   final String gender;
-  final String role;     // Nuevo: 'Paciente' o 'Terapeuta'
+  final String isDoctor;     // Nuevo: 'N' o 'S'
 
   User({
     required this.id,
@@ -14,7 +14,7 @@ class User {
     required this.phone,
     required this.age,
     required this.gender,
-    this.role = 'Paciente', // Valor por defecto
+    this.isDoctor = 'N', // Valor por defecto
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -40,7 +40,7 @@ class User {
       gender: json['gender'] ?? json['Gender'] ?? json['genre'] ?? 'O',
 
       // 7. Role (Nuevo campo para seguridad)
-      role: json['role'] ?? json['Role'] ?? 'Paciente',
+      isDoctor: json['isDoctor'] ?? json['isDoctor'] ?? 'N',
     );
   }
 
@@ -52,7 +52,7 @@ class User {
       'phone': phone,
       'age': age,
       'gender': gender,
-      'role': role,
+      'isDoctor': isDoctor,
     };
   }
 }

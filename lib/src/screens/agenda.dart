@@ -404,9 +404,9 @@ class _AgendaScreenState extends State<AgendaScreen> {
                       }),
                       _buildNavItem(Icons.calendar_month, "", true, onTap: () {}),
                       // Reemplaza el botón de Premium por:
-_buildNavItem(Icons.medical_services, "Citas", false, onTap: () {
-  Navigator.push(context, MaterialPageRoute(builder: (context) => const PatientAppointmentsScreen()));
-}),
+                    _buildNavItem(Icons.medical_services, "Citas", false, onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const PatientAppointmentsScreen()));
+                    }),
 
                       _buildNavItem(Icons.person, "Perfil", false, onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));
