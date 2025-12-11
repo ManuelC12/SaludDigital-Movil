@@ -37,8 +37,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  final Color greenDark = const Color(0xFF1A3C2F);
-  final Color greenPrimary = const Color(0xFF2D936C);
+  final Color greenDark = const Color.fromRGBO(26, 60, 47, 1);
+  final Color greenPrimary = const Color.fromRGBO(45, 147, 108, 1);
   
   String filtroActual = 'todos';
   bool modoSOS = false;

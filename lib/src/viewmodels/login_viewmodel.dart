@@ -33,4 +33,10 @@ class LoginViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  /// Cierra la sesión del usuario localmente
+  void logout() {
+    _user = null;
+    notifyListeners();
+  }
 }

@@ -6,11 +6,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
   // TU URL DE RENDER (Sin el /swagger/index.html)
-  static const String _baseUrl = "https://saluddigital-back-1.onrender.com/api";
+  // static const String _baseUrl = "https://saluddigital-back-1.onrender.com/api";
+  static const String _baseUrl = "https://eefba05e5eb2.ngrok-free.app/api";
 
   // --- 1. LOGIN ---
   Future<Map<String, dynamic>> login(String email, String password) async {
     final url = Uri.parse('$_baseUrl/Users/login');
+    print(url.toString());
 
     try {
       final response = await http.post(
@@ -20,6 +22,7 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
+        print(jsonDecode(response.body));
         return jsonDecode(response.body); // Devuelve el JSON con el token
       } else {
         throw Exception('Error ${response.statusCode}: ${response.body}');
